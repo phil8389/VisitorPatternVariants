@@ -39,8 +39,19 @@ public class Method extends AbstractElement implements IElement {
     }
 
     @Override
-    public void acceptForBF(Visitor visitor) {
-    visitor.open(this);
-    visitor.close(this);
+    public void acceptForBF(VisitorBF visitor) {
+    visitor.visit(this);
+    }
+
+    public void acceptForSelective(VisitorSelective visitor) {
+        if (!visitor.visit(this))
+            return;
+        final Iterator iterator = statements.iterator();
+            while (iterator.hasNext()) {
+                Statement s = (Statement) iterator.next();
+                    s.acceptForSelective(visitor);
+            }
+
+
     }
 }

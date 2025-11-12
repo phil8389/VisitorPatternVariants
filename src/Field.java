@@ -8,8 +8,12 @@ public class Field extends AbstractElement implements IElement {
         visitor.visit(this);
     }
 
+    public void acceptForSelective(VisitorSelective visitor) {
+        visitor.visit(this);
+    }
+
     @Override
-    public void acceptForBF(Visitor visitor) {
+    public void acceptForBF(VisitorBF visitor) {
         visitor.visit(this);
     }
 }

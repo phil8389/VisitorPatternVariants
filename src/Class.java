@@ -22,9 +22,9 @@ public class Class extends AbstractElement implements IElement {
         Methods.remove(method);
     }
 
-    public Set getMethods()
+    public Iterator getMethods()
     {
-        return Methods;
+        return Methods.iterator();
     }
 
     public void addField(Field field)
@@ -35,9 +35,9 @@ public class Class extends AbstractElement implements IElement {
     {
         Fields.remove(field);
     }
-    public Set getFields()
+    public Iterator getFields()
     {
-        return Fields;
+        return Fields.iterator();
     }
 
     @Override
@@ -60,9 +60,26 @@ public class Class extends AbstractElement implements IElement {
         visitor.close(this);
     }
 
+    public void acceptForSelective(VisitorSelective visitor) {
+        if(!visitor.visit(this))
+            return;
+        //if this is not the final node and further children, then traverse and call their accept
+        Iterator iterator = Methods.iterator();
+        while(iterator.hasNext())
+        {
+            Method method = (Method) iterator.next();
+            method.acceptForSelective(visitor);
+        }
+        Iterator iterator2 = Fields.iterator();
+        while(iterator2.hasNext())
+        {
+            Field field = (Field) iterator2.next();
+            field.acceptForSelective(visitor);
+        }
+    }
+
     @Override
-    public void acceptForBF(Visitor visitor) {
-        visitor.open(this);
-        visitor.close(this);
+    public void acceptForBF(VisitorBF visitor) {
+        visitor.visit(this);
     }
 }

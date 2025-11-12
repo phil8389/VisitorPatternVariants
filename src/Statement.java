@@ -7,8 +7,12 @@ public class Statement extends AbstractElement implements IElement {
     }
 
     @Override
-    public void acceptForBF(Visitor visitor) {
+    public void acceptForBF(VisitorBF visitor) {
         visitor.visit(this);
+    }
+
+    public void acceptForSelective(VisitorSelective visitor) {
+       visitor.visit(this);
     }
 
     public Statement(String sCode) {
